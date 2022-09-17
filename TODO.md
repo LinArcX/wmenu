@@ -1,0 +1,3 @@
+- [] option for set background/foreground colors
+- [] option for choose font
+- [] option for prompt
