@@ -11,20 +11,29 @@
 using namespace std;
 
 #define WCOMBO 3
+#define APP_NAME "wmenu"
 #pragma warning(disable: 4996)
 
-/*
-  Sicne wmenu uses WINDOWS subsystem, you can't use stdout directly.
-  So you should call wmenu like this:
-    .\wmenu.exe | more
-*/
+HWND hwnd;
+BOOL appIsRunning;
+HWND hwndComboBox = NULL;
+std::vector<std::string> elementList;
+static TCHAR wAppName[] = TEXT(APP_NAME);
 
 int width, height;
 bool bottom = false;
 std::list<int> items;
 char* elements = NULL;
-std::vector<std::string> elementList;
-HWND hwndComboBox = NULL;
+
+BOOL appAlreadyRunning(void) {
+  HANDLE Mutex = NULL;
+  Mutex = CreateMutex(NULL, FALSE, APP_NAME L"_Mutex");
+  if (GetLastError() == ERROR_ALREADY_EXISTS) {
+    return (TRUE);
+  } else {
+    return (FALSE);
+  }
+}
 
 void initialize()
 {
@@ -89,7 +98,7 @@ LRESULT CALLBACK WndProc(HWND hWnd, UINT msg, WPARAM wp, LPARAM lp)
     } break;
     case WM_COMMAND:
     {
-      if (HIWORD(wp) == CBN_SELCHANGE)
+      if (HIWORD(wp) == CBN_SELENDOK)
       {
         if (LOWORD(wp) == WCOMBO)
         {
@@ -97,7 +106,9 @@ LRESULT CALLBACK WndProc(HWND hWnd, UINT msg, WPARAM wp, LPARAM lp)
           LRESULT index = SendMessageW(hcombo, CB_GETCURSEL, (WPARAM)0, (LPARAM)0);
           wchar_t buf[256];
           SendMessageW(hcombo, (UINT)CB_GETLBTEXT, (WPARAM)index, (LPARAM)buf);
-          MessageBoxW(hWnd, buf, L"Good Example", 0);
+          printf("%ls", buf);
+          SendMessage(hwnd, WM_CLOSE, 0, 0);
+          //MessageBoxW(hWnd, buf, L"Good Example", 0);
         }
       }
       if (HIWORD(wp) == CBN_EDITUPDATE)
@@ -148,8 +159,9 @@ LRESULT CALLBACK WndProc(HWND hWnd, UINT msg, WPARAM wp, LPARAM lp)
       SetBkColor(hdcStatic, RGB(79, 78, 77));
       return (INT_PTR)CreateSolidBrush(RGB(107, 105, 99));
     } break;
-    case WM_DESTROY:
+    case WM_CLOSE:
     {
+      appIsRunning = FALSE;
       PostQuitMessage(0);
       return 0;
     } break;
@@ -165,11 +177,20 @@ int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, PSTR szCmdLine,
 {
   int argc = __argc;
   char** argv = __argv;
+  INT Result = 0;
+  bool hasElements = false;
+  appIsRunning = TRUE;
+
+  if (appAlreadyRunning())
+  {
+    goto Exit;
+  }
+
   for (size_t i = 0; i < argc; ++i)
   {
     if (0 == strcmp(argv[i], "-e") || 0 == strcmp(argv[i], "--elements"))
     {
-      printf("elements: %s\n", argv[i+1]);
+      hasElements = true;
       elements = argv[i + 1];
 
       string item;
@@ -195,20 +216,22 @@ int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, PSTR szCmdLine,
     {
     }
   }
+  if (!hasElements)
+  {
+    goto Exit;
+  }
 
   initialize();
 
   MSG msg;
-  HWND hwnd;
   WNDCLASS wndclass;
-  static TCHAR szAppName[] = TEXT("wmenu");
 
   wndclass.cbClsExtra = 0;
   wndclass.cbWndExtra = 0;
   wndclass.lpszMenuName = NULL;
   wndclass.hInstance = hInstance;
   wndclass.lpfnWndProc = WndProc;
-  wndclass.lpszClassName = szAppName;
+  wndclass.lpszClassName = wAppName;
   wndclass.style = CS_HREDRAW | CS_VREDRAW | CS_NOCLOSE;
   wndclass.hIcon = LoadIcon(NULL, IDI_APPLICATION);
   wndclass.hCursor = LoadCursor(NULL, IDC_ARROW);
@@ -216,10 +239,10 @@ int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, PSTR szCmdLine,
 
   if (!RegisterClass(&wndclass))
   {
-    MessageBox(NULL, TEXT("This program requires Windows NT!"), szAppName, MB_ICONERROR);
+    MessageBox(NULL, TEXT("This program requires Windows NT!"), wAppName, MB_ICONERROR);
     return 0;
   }
-  hwnd = CreateWindow(szAppName,
+  hwnd = CreateWindow(wAppName,
     TEXT("wmenu"),
     WS_POPUP|WS_VISIBLE|WS_SYSMENU,
     0,              // initial x position
@@ -238,6 +261,20 @@ int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, PSTR szCmdLine,
   {
     TranslateMessage(&msg);
     DispatchMessage(&msg);
+
+    switch (msg.message)
+    {
+    case WM_KEYDOWN:
+    {
+      if ((GetAsyncKeyState(VK_ESCAPE) & 0x01) && appIsRunning)
+        {
+          SendMessage(hwnd, WM_CLOSE, 0, 0);
+        }
+    } break;
+    }
   }
-  return msg.wParam;
+  Result = msg.wParam;
+
+Exit:
+  return Result;
 }
