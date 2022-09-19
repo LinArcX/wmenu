@@ -3,13 +3,13 @@ A [dmenu](https://tools.suckless.org/dmenu/) clone for windows operating system 
 
 # Demo
 
-Application launcher:
+[Application launcher](https://github.com/LinArcX/winconf/blob/master/wmenu/02_apps.bat):
 ![application_launcher](https://user-images.githubusercontent.com/10884422/190995855-8fda3c72-1f08-4fa5-b454-7a5c29b95507.jpg)
 
-Jump to favorite directories:
+[Jump to favorite directories](https://github.com/LinArcX/winconf/blob/master/wmenu/01_dirs.bat):
 ![jump_to_favorite_dirs](https://user-images.githubusercontent.com/10884422/190996240-65d5f85c-62a2-4884-b8e8-9dc76f8c873b.jpg)
 
-PowerManager
+[PowerManager](https://github.com/LinArcX/winconf/blob/master/wmenu/00_power_manager.bat):
 ![jump_to_favorite_dirs](https://user-images.githubusercontent.com/10884422/191008799-d19962ec-af4f-47eb-bd32-ef533af7c66b.jpg)
 
 # Why?
