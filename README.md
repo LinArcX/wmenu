@@ -16,9 +16,9 @@ So I started from scratch to clone dmenu using win32 API, without any emulation.
 # Tips
 Sicne wmenu uses WINDOWS subsystem when compiling, you can't use stdout directly.
 
-So you should call wmenu like this in your scripts: 
+So you should call wmenu like this in your scripts:
 
-`.\wmenu.exe | more`
+`wmenu.exe --elements "foo;bar;" | more`
 
 # Usage
 
@@ -44,7 +44,7 @@ del "%temp%\apps.txt"
 
 You can use [clavier+](https://github.com/guilryder/clavier-plus) to bind it to a key.
 
-As i said, i [use](https://github.com/LinArcX/winconf/tree/master/wmenu)wmenu for almost anything. Enjoy hacking your workflow :)
+As i said, i [use](https://github.com/LinArcX/winconf/tree/master/wmenu) wmenu for almost anything. Enjoy hacking your workflow :)
 
 ## License
 ![License](https://img.shields.io/github/license/LinArcX/wmenu.svg)
