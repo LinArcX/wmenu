@@ -4,10 +4,11 @@
 - [] when start searching, selection should be active on the first item.(CB_SETCURSEL)
 
 - [] option for set background/foreground colors.
-- [] option for set position.
-- [] option for set position at bottom.
-- [] option for set prompt.
-- [] running wmenu without `-e` option should show a textbox instead of a combobox and when user hit ENTER, it should print the text in textbox.
+- [] option for set position and width/height.
+- [] option for set position at bottom/center/top.
+
+- [DONE] option for set prompt.
+- [DONE] running wmenu without `-elements` option should show a textbox instead of a combobox and when user hit ENTER, it should print the text in textbox.
 - [DONE]  option: `-lineNumber`;
 - [DONE] option for choose font.
 - [DONE] option for search case insensitive

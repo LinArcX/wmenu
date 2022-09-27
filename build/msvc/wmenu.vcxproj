@@ -90,8 +90,9 @@
     <ClCompile>
       <WarningLevel>Level3</WarningLevel>
       <SDLCheck>true</SDLCheck>
-      <PreprocessorDefinitions>WIN32;_DEBUG;_CONSOLE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <PreprocessorDefinitions>WIN32;_DEBUG;_CONSOLE;_CRT_SECURE_NO_WARNINGS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <ConformanceMode>true</ConformanceMode>
+      <LanguageStandard>stdcpp17</LanguageStandard>
     </ClCompile>
     <Link>
       <SubSystem>Windows</SubSystem>
@@ -143,7 +144,31 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
-    <ClCompile Include="..\..\sources\wmenu.cpp" />
+    <None Include="..\..\.gitignore" />
+    <None Include="..\..\LICENSE" />
+    <None Include="..\..\README.md" />
+    <None Include="..\..\TODO.md" />
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="..\..\sources\commandLine\options\prompt\prompt.hpp" />
+    <ClInclude Include="..\..\sources\util\util.hpp" />
+    <ClInclude Include="..\..\sources\gui\gui.hpp" />
+    <ClInclude Include="..\..\sources\gui\label\label.hpp" />
+    <ClInclude Include="..\..\sources\gui\textBox\textBox.hpp" />
+    <ClInclude Include="..\..\sources\gui\comboBox\comboBox.hpp" />
+    <ClInclude Include="..\..\sources\commandLine\commandLine.hpp" />
+    <ClInclude Include="..\..\sources\commandLine\options\font\font.hpp" />
+  </ItemGroup>
+  <ItemGroup>
+    <ClCompile Include="..\..\sources\commandLine\options\prompt\prompt.cpp" />
+    <ClCompile Include="..\..\sources\main.cpp" />
+    <ClCompile Include="..\..\sources\util\util.cpp" />
+    <ClCompile Include="..\..\sources\gui\gui.cpp" />
+    <ClCompile Include="..\..\sources\gui\label\label.cpp" />
+    <ClCompile Include="..\..\sources\gui\textBox\textBox.cpp" />
+    <ClCompile Include="..\..\sources\gui\comboBox\comboBox.cpp" />
+    <ClCompile Include="..\..\sources\commandLine\commandLine.cpp" />
+    <ClCompile Include="..\..\sources\commandLine\options\font\font.cpp" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
