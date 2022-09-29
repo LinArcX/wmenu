@@ -10,13 +10,13 @@ If you omit `-elements`, wmenu starts acting like a GUI TextBox. Now you can typ
 # Demo
 
 [Application launcher](https://github.com/LinArcX/winconf/blob/master/wmenu/02_apps.bat):
-![application_launcher](https://user-images.githubusercontent.com/10884422/190995855-8fda3c72-1f08-4fa5-b454-7a5c29b95507.jpg)
+![application_launcher](https://user-images.githubusercontent.com/10884422/193086477-edc60bb8-2fbc-4974-be43-adb5a9079d20.jpg)
 
 [Jump to favorite directories](https://github.com/LinArcX/winconf/blob/master/wmenu/01_dirs.bat):
-![jump_to_favorite_dirs](https://user-images.githubusercontent.com/10884422/190996240-65d5f85c-62a2-4884-b8e8-9dc76f8c873b.jpg)
+![jump_to_favorite_dirs](https://user-images.githubusercontent.com/10884422/193086873-353ad517-06aa-4669-bc90-b14d044cffcb.jpg)
 
 [PowerManager](https://github.com/LinArcX/winconf/blob/master/wmenu/00_power_manager.bat):
-![jump_to_favorite_dirs](https://user-images.githubusercontent.com/10884422/191008799-d19962ec-af4f-47eb-bd32-ef533af7c66b.jpg)
+![power_manager](https://user-images.githubusercontent.com/10884422/193086890-9e3e20ce-2263-4251-aadb-553dc9c276d6.jpg)
 
 # Why?
 1. The main reason is that: I missed my Linux workflow.
