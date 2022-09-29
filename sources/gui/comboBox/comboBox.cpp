@@ -75,8 +75,10 @@ void ComboBox::createComboBox(HWND m_hwnd, int x, int y, int width, int height, 
 
 int ComboBox::setLineNumber()
 {
-  if (1 == lineNumber.value) { return 50; }
-  else if (2 == lineNumber.value) { return 85; }
-  else if (3 == lineNumber.value) { return 105; }
-  else { return (105 + (lineNumber.value - 3)) * 20; }
+  int output = 0;
+  if (1 == lineNumber.value) { output =  50; }
+  else if (2 == lineNumber.value) { output =  85; }
+  else if (3 == lineNumber.value) { output = 105; }
+  else { output = 105 + ((lineNumber.value - 3) * 20); }
+  return output;
 }

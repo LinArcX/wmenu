@@ -7,8 +7,10 @@
 #include "../util/util.hpp"
 #include "../commandLine/options/prompt/prompt.hpp"
 
-void CommandLine::parseArguments()
+int CommandLine::parseArguments()
 {
+  int exitFlag = 0;
+  ComboBox::instance()->caseSensitive.exists = true;
   size_t argc = __argc;
   char** argv = __argv;
   for (size_t i = 0; i < argc; ++i)
@@ -57,10 +59,57 @@ void CommandLine::parseArguments()
     {
       printf("version: %s\n", Gui::instance()->version.c_str());
       SendMessage(Gui::instance()->hwnd, WM_CLOSE, 0, 0);
+      exitFlag = -1;
     }
-    else
+    else if (0 == strcmp(argv[i], "-help"))
     {
-      //printf("*Warning* Unknow argument: %s\n", argv[i + 1]);
+      help();
+      SendMessage(Gui::instance()->hwnd, WM_CLOSE, 0, 0);
+      exitFlag = -1;
     }
   }
+  return exitFlag;
+}
+
+void CommandLine::help()
+{
+  printf("NAME\t%ls\n", Gui::instance()->name.c_str());
+  printf("\tA dmenu clone for windows operating system written with pure win32 API\n\n\n");
+
+  printf("SYNOPSIS\n");
+  printf("\t wmenu.exe [OPTIONS...] | more\n\n\n");
+
+  printf("DESCRIPTION\n");
+  printf("\twmenu is a hybrid gui/terminal win32 application inspired by dmenu from suckless.\n \\
+    \tBut it's more than dmenu. It's better to see wmenu as \"a GUI echo\" utility.\n\n \\
+    \tIf you pass it a list of items to it via : `-elements` option, \n \\
+    \twmenu shows you a ComboBox and and you're able to select one of them. After that, it echos back that item on your terminal.\n\n \\
+    \tIf you omit `-elements`, wmenu starts acting like a GUI TextBox.\n \\
+    \tNow you can type something and by pressing ENTER, it will echo the content of TextBox on the screen.\n \\
+    \n\n");
+
+  printf("OPTIONS\n");
+  printf("\t -elements\n");
+  printf("\t\tWith this option, you can pass a list of semicolon-separated items to wmenu. example: `wmenu -elments \"foo;bar;baRR;BAr;For;Foo;FOOO;BAZZ\"`\n\n");
+
+  printf("\t -prompt\n");
+  printf("\t\tShows a label at the top-left corner of wmenu.\n\n");
+
+  printf("\t -caseInsensitive\n");
+  printf("\t\tWhen passing a list of items to `-elements`, you can specify the search behavior should be case insensitive.\n\n");
+
+  printf("\t -fontName\n");
+  printf("\t\tSpecifying the font name that is used for GUI elements(ComboBox, TextBox, Label, ...).\n\n");
+
+  printf("\t -fontSize\n");
+  printf("\t\tSpecifying the font size that is used for GUI elements(ComboBox, TextBox, Label, ...).\n\n");
+
+  printf("\t -lineNumber\n");
+  printf("\t\tSpecifying the number of items when showing the comboBox(This option should be used only with `-elements` option).\n\n");
+
+  printf("\t -version\n");
+  printf("\t\tShow version number.\n\n");
+
+  printf("\t -help\n");
+  printf("\t\tShows this help page.\n\n");
 }

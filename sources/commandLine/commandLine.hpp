@@ -3,7 +3,8 @@
 
 struct CommandLine
 {
-	void parseArguments();
+	int parseArguments();
+	void help();
 };
 
 #endif

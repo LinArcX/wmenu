@@ -4,14 +4,14 @@
 #include <windowsx.h>
 #include <commctrl.h>
 
-TextBox::TextBox()
-{
-  m_hwnd_id = 4;
-  m_hwnd = NULL;
-  m_window_proc = NULL;
-}
+#include "../../util/util.hpp"
+#include "../../commandLine/options/font/font.hpp"
 
-LRESULT CALLBACK TextBoxWindowHandler(HWND hwnd, UINT msg, WPARAM wParam, LPARAM lParam, TextBox& textBox)
+HWND TextBox::hwnd = NULL;
+int TextBox::hwnd_id = 4;
+WNDPROC TextBox::window_proc = NULL;
+
+LRESULT CALLBACK TextBoxWindowHandler(HWND hwnd, UINT msg, WPARAM wParam, LPARAM lParam)
 {
   switch (msg)
   {
@@ -34,17 +34,24 @@ LRESULT CALLBACK TextBoxWindowHandler(HWND hwnd, UINT msg, WPARAM wParam, LPARAM
     return 0;
   } break;
   }
-  return CallWindowProc(textBox.m_window_proc, hwnd, msg, wParam, lParam);
+  return CallWindowProc(TextBox::window_proc, hwnd, msg, wParam, lParam);
 }
 
-void TextBox::createTextBox(HWND hwnd, int x, int y, int width, int height)
+void TextBox::createTextBox(HWND hwnd, int x, int y, int width, int height, char* fontName)
 {
-   hwnd = CreateWindow(WC_EDIT, L"",
+   HWND hwndTextBox = CreateWindow(WC_EDIT, L"",
      WS_BORDER | WS_CHILD | WS_VISIBLE | WS_VISIBLE | ES_WANTRETURN,
      x, y, width, height,
-     hwnd, (HMENU)hwndId(), NULL, NULL);
+     hwnd, (HMENU)hwnd_id, NULL, NULL);
 
-    m_window_proc = (WNDPROC) SetWindowLongPtr(hwnd, GWLP_WNDPROC, (LONG_PTR)TextBoxWindowHandler);
-    SetFocus(hwnd);
+  if (Font::instance()->name.exists)
+  {
+    Util::setFont(hwndTextBox, fontName,
+      Font::instance()->size.exists ? (Font::instance()->size.value * 2) + (Font::instance()->size.value / 2) : 20,
+      Font::instance()->size.exists ? Font::instance()->size.value : 8);
+  }
+
+  window_proc = (WNDPROC) SetWindowLongPtr(hwndTextBox, GWLP_WNDPROC, (LONG_PTR)TextBoxWindowHandler);
+  SetFocus(hwndTextBox);
 }
 

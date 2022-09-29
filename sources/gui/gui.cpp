@@ -58,11 +58,21 @@ void Gui::setupGui(HWND m_hwnd)
         Font::instance()->name.value,
         Prompt::instance()->value);
 
+      int lineNumber = 0;
+      if (ComboBox::instance()->lineNumber.exists)
+      {
+        lineNumber = ComboBox::instance()->setLineNumber();
+      }
+      else
+      {
+        lineNumber = 125;
+      }
+
       ComboBox::instance()->createComboBox(m_hwnd,
         Prompt::instance()->exists ? Prompt::instance()->length * 8 : 0,
         0,
         width - (Prompt::instance()->length * 8),
-        ComboBox::instance()->lineNumber.exists ? ComboBox::instance()->setLineNumber() : 125,
+        lineNumber,
         Font::instance()->name.value);
     }
     else
@@ -79,7 +89,7 @@ void Gui::setupGui(HWND m_hwnd)
   {
     if (Prompt::instance()->exists)
     {
-      label.createLabel(hwnd,
+      label.createLabel(m_hwnd,
         0,
         0,
         (Prompt::instance()->length * 8),
@@ -87,19 +97,21 @@ void Gui::setupGui(HWND m_hwnd)
         Font::instance()->name.value,
         Prompt::instance()->value);
 
-      textBox.createTextBox(hwnd,
+      textBox.createTextBox(m_hwnd,
         Prompt::instance()->exists ? Prompt::instance()->length * 8 : 0,
         0,
         Prompt::instance()->exists ? width - Prompt::instance()->length : width,
-        200);
+        200,
+        Font::instance()->name.value);
     }
     else
     {
-      textBox.createTextBox(hwnd,
+      textBox.createTextBox(m_hwnd,
         Prompt::instance()->exists ? Prompt::instance()->length * 8 : 0,
         0,
         Prompt::instance()->exists ? width - Prompt::instance()->length : width,
-        200);
+        200,
+        Font::instance()->name.value);
     }
   }
 }
@@ -110,93 +122,113 @@ LRESULT CALLBACK WindowHandler(HWND hWnd, UINT message, WPARAM wParam, LPARAM lP
   PAINTSTRUCT ps;
   switch (message)
   {
-    case WM_CREATE:
+  case WM_ACTIVATE:
+  case WM_SETFOCUS:
+  case WM_ENABLE:
+  case WM_MOVE:
+  case WM_FONTCHANGE:
+  {
+    HDC hdcStatic = (HDC)wParam;
+    SetTextColor(hdcStatic, RGB(240, 216, 192));
+    SetBkColor(hdcStatic, RGB(79, 78, 77));
+    return (INT_PTR)CreateSolidBrush(RGB(107, 105, 99));
+  } break;
+  case WM_PAINT:
+  {
+    hdc = BeginPaint(hWnd, &ps);
+    EndPaint(hWnd, &ps);
+    return 0;
+  } break;
+  case WM_COMMAND:
+  {
+    if (HIWORD(wParam) == CBN_SELENDOK)
     {
-    } break;
-    case WM_PAINT:
-    {
-      hdc = BeginPaint(hWnd, &ps);
-      EndPaint(hWnd, &ps);
-      return 0;
-    } break;
-    case WM_COMMAND:
-    {
-      if (HIWORD(wParam) == CBN_SELENDOK)
+      if (LOWORD(wParam) == ComboBox::instance()->hwnd_id)
       {
-        if (LOWORD(wParam) == ComboBox::instance()->hwnd_id)
-        {
-          HWND hcombo = (HWND)lParam;
-          LRESULT index = SendMessageW(hcombo, CB_GETCURSEL, (WPARAM)0, (LPARAM)0);
-          wchar_t buf[256];
-          SendMessageW(hcombo, (UINT)CB_GETLBTEXT, (WPARAM)index, (LPARAM)buf);
-          printf("%ls", buf);
-          SendMessage(hWnd, WM_CLOSE, 0, 0);
-        }
+        HWND hcombo = (HWND)lParam;
+        LRESULT index = SendMessageW(hcombo, CB_GETCURSEL, (WPARAM)0, (LPARAM)0);
+        wchar_t buf[256];
+        SendMessageW(hcombo, (UINT)CB_GETLBTEXT, (WPARAM)index, (LPARAM)buf);
+        printf("%ls", buf);
+        SendMessage(hWnd, WM_CLOSE, 0, 0);
       }
-      if (HIWORD(wParam) == CBN_EDITUPDATE)
+    }
+    if (HIWORD(wParam) == CBN_EDITUPDATE)
+    {
+      static WCHAR str[128];
+      if (LOWORD(wParam) == ComboBox::instance()->hwnd_id)
       {
-        static WCHAR str[128];
-        if (LOWORD(wParam) == ComboBox::instance()->hwnd_id)
+        HWND hcombo = (HWND)lParam;
+        GetWindowText(hcombo, str, 128);
+        std::vector<std::string> _tempList;
+        //ComboBox_SelectString(hwndComboBox, 0, L"sa");
+
+        for (size_t i = 0; i < ComboBox::instance()->items.listOfItems.size(); ++i)
         {
-          HWND hcombo = (HWND)lParam;
-          GetWindowText(hcombo, str, 128);
-          std::vector<std::string> _tempList;
-          //ComboBox_SelectString(hwndComboBox, 0, L"sa");
+          // Delete all items
+          std::wstring stemp = std::wstring(ComboBox::instance()->items.listOfItems[i].begin(), ComboBox::instance()->items.listOfItems[i].end());
+          LPCWSTR sw = stemp.c_str();
+          SendMessageW(ComboBox::instance()->hwnd, CB_DELETESTRING, 0, (LPARAM)sw);
 
-          for (size_t i = 0; i < ComboBox::instance()->items.listOfItems.size(); ++i)
+          // Add new items to vector
+          std::wstring ws(str);
+          std::string test(ws.begin(), ws.end());
+
+          size_t pos = 0;
+          if (!ComboBox::instance()->caseSensitive.exists)
           {
-            // Delete all items
-            std::wstring stemp = std::wstring(ComboBox::instance()->items.listOfItems[i].begin(), ComboBox::instance()->items.listOfItems[i].end());
-            LPCWSTR sw = stemp.c_str();
-            SendMessageW(ComboBox::instance()->hwnd, CB_DELETESTRING, 0, (LPARAM)sw);
-
-            // Add new items to vector
-            std::wstring ws(str);
-            std::string test(ws.begin(), ws.end());
-
-            if (!ComboBox::instance()->caseSensitive.exists)
-            {
-              size_t pos = Util::findSubStrinInString(ComboBox::instance()->items.listOfItems[i], test);
-              if (std::string::npos != pos)
-              {
-                _tempList.push_back(ComboBox::instance()->items.listOfItems[i]);
-              }
-            }
+            pos = Util::findSubStrinInString(ComboBox::instance()->items.listOfItems[i], test);
+           }
+          else
+          {
+            pos = ComboBox::instance()->items.listOfItems[i].find(test, 0);
           }
 
-          for (size_t i = 0; i < _tempList.size(); ++i)
+          if (std::string::npos != pos)
           {
-            std::wstring stemp = std::wstring(_tempList[i].begin(), _tempList[i].end());
-            LPCWSTR sw = stemp.c_str();
-            SendMessageW(ComboBox::instance()->hwnd, CB_ADDSTRING, 0, (LPARAM)sw);
+            _tempList.push_back(ComboBox::instance()->items.listOfItems[i]);
           }
-          ComboBox_ShowDropdown(ComboBox::instance()->hwnd, TRUE);
-          //ComboBox_SetCurSel(hwndComboBox, 1);
         }
+
+        for (size_t i = 0; i < _tempList.size(); ++i)
+        {
+          std::wstring stemp = std::wstring(_tempList[i].begin(), _tempList[i].end());
+          LPCWSTR sw = stemp.c_str();
+          SendMessageW(ComboBox::instance()->hwnd, CB_ADDSTRING, 0, (LPARAM)sw);
+        }
+        ComboBox_ShowDropdown(ComboBox::instance()->hwnd, TRUE);
+        //ComboBox_SetCurSel(hwndComboBox, 1);
       }
-    } break;
-    case WM_CTLCOLORMSGBOX:
-    case WM_CTLCOLORLISTBOX:
-    case WM_CTLCOLORBTN:
-    case WM_CTLCOLORDLG:
-    case WM_CTLCOLORSCROLLBAR:
-    case WM_CTLCOLORSTATIC:
-    case WM_CTLCOLOREDIT:
-    {
-      HDC hdcStatic = (HDC)wParam;
-      SetTextColor(hdcStatic, RGB(240, 216, 192));
-      SetBkColor(hdcStatic, RGB(79, 78, 77));
-      return (INT_PTR)CreateSolidBrush(RGB(107, 105, 99));
-    } break;
-    case WM_CLOSE:
-    {
-      PostQuitMessage(0);
-      return 0;
-    } break;
-    default:
-    {
-      return DefWindowProcW(hWnd, message, wParam, lParam);
-    } break;
+    }
+  } break;
+  case WM_CTLCOLORMSGBOX:
+  case WM_CTLCOLORLISTBOX:
+  case WM_CTLCOLORBTN:
+  case WM_CTLCOLORDLG:
+  case WM_CTLCOLORSCROLLBAR:
+  case WM_CTLCOLOREDIT:
+  {
+    HDC hdcStatic = (HDC)wParam;
+    SetTextColor(hdcStatic, RGB(240, 216, 192));
+    SetBkColor(hdcStatic, RGB(79, 78, 77));
+    return (INT_PTR)CreateSolidBrush(RGB(107, 105, 99));
+  } break;
+  case WM_CTLCOLORSTATIC:
+  {
+    HDC hdcStatic = (HDC)wParam;
+    SetTextColor(hdcStatic, RGB(240, 216, 192));
+    SetBkColor(hdcStatic, RGB(79, 78, 77));
+    return (INT_PTR)CreateSolidBrush(RGB(107, 105, 99));
+  } break;
+  case WM_CLOSE:
+  {
+    PostQuitMessage(0);
+    return 0;
+  } break;
+  default:
+  {
+    return DefWindowProcW(hWnd, message, wParam, lParam);
+  } break;
   }
   return DefWindowProc(hWnd, message, wParam, lParam);
 }
@@ -212,7 +244,11 @@ int Gui::initialize(const HINSTANCE hInstance, int iCmdShow)
   if (!isRunningCheck())
   {
     CommandLine commandLine;
-    commandLine.parseArguments();
+    Result = commandLine.parseArguments();
+    if (Result)
+    {
+      return Result;
+    }
 
     MSG msg;
     WNDCLASS wndclass = { 0 } ;
@@ -236,7 +272,7 @@ int Gui::initialize(const HINSTANCE hInstance, int iCmdShow)
 
     hwnd = CreateWindow(name.c_str(),
       name.c_str(),
-      WS_POPUP | WS_VISIBLE | WS_SYSMENU,
+      WS_POPUP | WS_SYSMENU,
       0,                                                    // initial x position
       0,                                                    // initial y position
       width,                                                // initial width

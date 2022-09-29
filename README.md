@@ -1,6 +1,12 @@
 # wmenu
 A [dmenu](https://tools.suckless.org/dmenu/) clone for windows operating system written with pure win32 API.
 
+It's a hybrid gui/terminal win32 application inspired by dmenu from suckless. But it's more than dmenu. It's better to see wmenu as "a GUI echo" utility.
+
+If you pass it a list of items to it via : `-elements` option, wmenu shows you a ComboBox and and you're able to select one of them. After that, it echos back that item on your terminal.
+
+If you omit `-elements`, wmenu starts acting like a GUI TextBox. Now you can type something and by pressing ENTER, it will echo the content of TextBox on the screen.
+
 # Demo
 
 [Application launcher](https://github.com/LinArcX/winconf/blob/master/wmenu/02_apps.bat):
@@ -33,12 +39,15 @@ A [dmenu](https://tools.suckless.org/dmenu/) clone for windows operating system 
 # Prerequisites
 - MSVC
 
-# Tips
+# How use it?
 Sicne wmenu uses WINDOWS subsystem when compiling, you can't use stdout directly.
 
-So you should call wmenu like this in your scripts:
+So you should start wmenu like this in your terminal/scripts:
 
 `wmenu.exe -elements "foo;bar;" | more`
+
+For more information about how using wmenu and it's options:
+`wmenu.exe -help | more`
 
 # Usage
 
@@ -71,7 +80,6 @@ As i said, i [use](https://github.com/LinArcX/winconf/tree/master/wmenu) wmenu f
 2. I don't like passing a list of elements by piping(something used in suckless dmenu). Instead, I prefer to __explicitly__ pass them via `-elmenets` option.
 3. I'm not a big fan of having two kinds of option names(short names like `-e` and long ones like `--elements`). Instead, I prefer to use full and descriptive names. (`-elements`)
 4. I prefer __modularity__ and __readability__ over minimality. Consequently, I don't care about the line of codes!
- I can show you a lot of open source programs that are minimal in lines of code, but they are spaghetti and hard to read or change.
 
 ## License
 ![License](https://img.shields.io/github/license/LinArcX/wmenu.svg)
