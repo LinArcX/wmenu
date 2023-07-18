@@ -12,6 +12,7 @@ public:
 	static void setFont(HWND hwnd, char* fontName, int height, int width);
 	static int stringToInt(std::string input);
 	static size_t findSubStrinInString(std::string data, std::string subString, size_t pos = 0);
+	static char escapeSeqToChar(char seq);
 };
 
 #endif

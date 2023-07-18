@@ -13,16 +13,38 @@ int CommandLine::parseArguments()
   ComboBox::instance()->caseSensitive.exists = true;
   size_t argc = __argc;
   char** argv = __argv;
+  char elementDelimiterUsed = ';';
+
   for (size_t i = 0; i < argc; ++i)
   {
-    if (0 == strcmp(argv[i], "-elements"))
+    if (0 == strcmp(argv[i], "-element-delimiter"))
+    {
+        std::string elementDelimiter = argv[i + 1];
+        if (elementDelimiter.length() == 2 && elementDelimiter[0] == '\\')
+        {
+            elementDelimiterUsed = Util::escapeSeqToChar(elementDelimiter[1]);
+        }
+        else if (elementDelimiter.length() == 1)
+        {
+            elementDelimiterUsed = elementDelimiter[0];
+        }
+        else
+        {
+            elementDelimiterUsed = elementDelimiter[0];
+            printf("Delimiter must be a single character only\n");
+            SendMessage(Gui::instance()->hwnd, WM_CLOSE, 0, 0);
+            exitFlag = -1;
+        }
+        
+    }
+    else if (0 == strcmp(argv[i], "-elements"))
     {
       ComboBox::instance()->items.exists = true;
       ComboBox::instance()->items.rawItems = argv[i + 1];
 
       std::string item;
       std::stringstream ss (ComboBox::instance()->items.rawItems);
-      while (getline (ss, item, ';'))
+      while (getline (ss, item, elementDelimiterUsed))
       {
         ComboBox::instance()->items.listOfItems.push_back(item);
       }
@@ -90,7 +112,11 @@ void CommandLine::help()
 
   printf("OPTIONS\n");
   printf("\t -elements\n");
-  printf("\t\tWith this option, you can pass a list of semicolon-separated items to wmenu. example: `wmenu -elments \"foo;bar;baRR;BAr;For;Foo;FOOO;BAZZ\"`\n\n");
+  printf("\t\tWith this option, you can pass a list of semicolon-separated items to wmenu. example: `wmenu -elements \"foo;bar;baRR;BAr;For;Foo;FOOO;BAZZ\"`\n\n");
+
+  printf("\t -element-delimiter\n");
+  printf("\t\tYou specify what character to seperate all the elements. If the option is not specified, it will use \";\" as the delimiter\
+    \n\t\texample: `wmenu -element-delimiter \",\" -elements \"foo,bar,baRR,BAr,For,Foo,FOOO,BAZZ\"`\n\n");
 
   printf("\t -prompt\n");
   printf("\t\tShows a label at the top-left corner of wmenu.\n\n");

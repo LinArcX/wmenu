@@ -55,3 +55,48 @@ std::wstring Util::stringToWString(const std::string& str)
   MultiByteToWideChar(CP_UTF8, 0, &str[0], (int)str.size(), &wstrTo[0], size_needed);
   return wstrTo;
 }
+
+char Util::escapeSeqToChar(char seq)
+{
+    char result;
+    switch (seq)
+    {
+    case 'a':
+        result = 7;
+        break;
+    case 'b':
+        result = 8;
+        break;
+    case 'f':
+        result = 12;
+        break;
+    case 'n':
+        result = 10;
+        break;
+    case 'r':
+        result = 13;
+        break;
+    case 't':
+        result = 9;
+        break;
+    case 'v':
+        result = 11;
+        break;
+    case '\'':
+        result = 39;
+        break;
+    case '"':
+        result = 34;
+        break;
+    case '?':
+        result = 63;
+        break;
+    case '\\':
+        result = 92;
+        break;
+    default:
+        result = seq;
+        break;
+    }
+    return result;
+}
