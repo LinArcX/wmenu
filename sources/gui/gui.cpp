@@ -236,7 +236,7 @@ LRESULT CALLBACK WindowHandler(HWND hWnd, UINT message, WPARAM wParam, LPARAM lP
 int Gui::initialize(const HINSTANCE hInstance, int iCmdShow)
 {
   name = L"wmenu";
-  version = "1.0.0";
+  version = "1.1.0";
   width = GetSystemMetrics(SM_CXSCREEN);
   height = GetSystemMetrics(SM_CYSCREEN);
 

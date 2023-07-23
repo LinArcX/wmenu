@@ -104,19 +104,19 @@ void CommandLine::help()
 
   printf("DESCRIPTION\n");
   printf("\twmenu is a hybrid gui/terminal win32 application inspired by dmenu from suckless.\n \\
-    \tBut it is more than dmenu. It's better to see wmenu as \"a GUI echo\" utility.\n\n \\
-    \tIf you pass it a list of items to it via : `-elements` option, \n \\
-    \twmenu shows you a ComboBox and and you are able to select one of them. After that, it echos back that item on your terminal.\n\n \\
+    \tBut it is more than dmenu. It's better to see it as \"a GUI echo\" utility.\n\n \\
+    \tIf you pass it a list of items via: `-elements` option, \n \\
+    \twmenu shows you a ComboBox and and can choose one of the items from the list. After that, it echos back that item on your terminal.\n\n \\
     \tIf you omit `-elements`, wmenu starts acting like a GUI TextBox.\n \\
     \tNow you can type something and by pressing ENTER, it will echo the content of TextBox on the screen.\n \\
     \n\n");
 
   printf("OPTIONS\n");
   printf("\t -elements\n");
-  printf("\t\tWith this option, you can pass a list of semicolon-separated items to wmenu. example: `wmenu -elements \"foo;bar;baRR;BAr;For;Foo;FOOO;BAZZ\"`\n\n");
+  printf("\t\tWith this option, you can pass a list of comma-separated items to wmenu. example: `wmenu -elements \"foo,bar,baRR,BAr,For,Foo,FOOO,BAZZ\"`\n\n");
 
   printf("\t -element-delimiter\n");
-  printf("\t\tSpecify what character to seperate the elements from each other.[valid delimiters: , ; : - _ | And SPACE] If the option is ommited, wmenu will use \",\" by default\
+  printf("\t\tSpecify which character to seperate the elements from each other.[valid delimiters: , ; : - _ | And SPACE] If the option is ommited, wmenu will use \",\" by default\
     \n\t\texample: `wmenu -element-delimiter \":\" -elements \"foo:bar:baRR:BAr:For:Foo:FOOO:BAZZ\"`\n\n");
 
   printf("\t -prompt\n");
@@ -135,7 +135,7 @@ void CommandLine::help()
   printf("\t\tSpecifying the number of items when showing the comboBox(This option should be used only with `-elements` option).\n\n");
 
   printf("\t -version\n");
-  printf("\t\tShow version number.\n\n");
+  printf("\t\tShows version number.\n\n");
 
   printf("\t -help\n");
   printf("\t\tShows this help page.\n\n");

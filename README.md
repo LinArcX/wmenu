@@ -1,9 +1,9 @@
 # wmenu
-A [dmenu](https://tools.suckless.org/dmenu/) clone for windows operating system written with pure win32 API.
+A [dmenu](https://tools.suckless.org/dmenu/) clone for the Windows operating system written with pure win32 API.
 
-It's a hybrid gui/terminal win32 application inspired by dmenu from suckless. But it's more than dmenu. It's better to see wmenu as "a GUI echo" utility.
+wmenu is a hybrid GUI/terminal application inspired by [dmenu](https://tools.suckless.org/dmenu/). But it's more than that. It's better to see wmenu as "a GUI echo" utility.
 
-If you pass it a list of items to it via : `-elements` option, wmenu shows you a ComboBox and and you're able to select one of them. After that, it echos back that item on your terminal.
+If you pass a list of items to it via: `-elements` option, wmenu shows you a ComboBox and and you're able to select one of them. After that, it echos back that item on your terminal.
 
 If you omit `-elements`, wmenu starts acting like a GUI TextBox. Now you can type something and by pressing ENTER, it will echo the content of TextBox on the screen.
 
@@ -21,32 +21,35 @@ If you omit `-elements`, wmenu starts acting like a GUI TextBox. Now you can typ
 # Why?
 1. The main reason is that: I missed my Linux workflow.
 
-	When I met dmenu for the first time, I said to myself: "this simple tool can change your workflow", And surprisingly it did!
-	I started to use dmenu to automate almost everything in my computer.
+	When I met dmenu for the first time, I said to myself: "This simple tool can change my workflow completely", And surprisingly it did!
+	I started to use dmenu to automate almost everything in my machine.
 	From searching through applications, managing software(installing/deleting/updating), running custom scripts, browsing through my favorite directories, playing music, etc...
 
-	But the problem is that dmenu uses Xlib under the hood which is not available on windows. There are some hacky ways like compiling dmenu using cygwin, but.. no.. I didn't like that way.
+	But the problem is that dmenu uses Xlib under the hood which is not available on Windows. There are some hacky ways like compiling dmenu using Cygwin, but.. no. I didn't like those ways.
 
 	So I started from scratch to clone dmenu using win32 API, without any emulation. This is how wmenu was born :)
 
-2. The second reason is that I wanted to encourage other people to challenge their habits.
-	Microsoft tried so hard during last years(And they are trying right now more than before) to force people to use their operating system in a specific way.
-	They pay huge money to their engineers to make for you a __default__ environment.
-	They always wanted you to follow their rules and tools. They think instead of you. And they design the house for you.
-
-	But hey, it's the computer world. No one can't tell you __HOW__ you can use your computer.
+2. The second reason is that I wanted to encourage people to challenge their habits. (even if you are a programmer or not.)
+	Microsoft tried so hard during the last years(And they are trying now more than before) to force people to use Windows in a specific way.
+	They pay huge amounts of money to engineers to create a palace!(__default__ environment)
+	In the end, you will become a good user(follower!) But man! it's the computer world. No one can tell you __HOW__ you can use your computer.
 
 # Prerequisites
 - MSVC
 
 # How use it?
-Sicne wmenu uses WINDOWS subsystem when compiling, you can't use stdout directly.
+Since wmenu uses the WINDOWS subsystem when compiling, you can't use stdout directly.
 
-So you should start wmenu like this in your terminal/scripts:
+So you should pipe it with `more` command:
 
-`wmenu.exe -elements "foo;bar;" | more`
+`wmenu.exe -elements "wmenu,dmenu,dwm" | more`
 
-For more information about how using wmenu and it's options:
+Or if you want to use a specific delimiter:
+
+`wmenu.exe -element-delimiter ":" -elements "wmenu:dmenu:dwm" | more`
+
+
+For more information about how using wmenu:
 `wmenu.exe -help | more`
 
 # Usage
@@ -76,10 +79,9 @@ You can use [clavier+](https://github.com/guilryder/clavier-plus) to bind it to 
 As i said, i [use](https://github.com/LinArcX/winconf/tree/master/wmenu) wmenu for almost anything. Enjoy hacking your workflow :)
 
 # Philosophy behind code structure
-1. I intentionally changed/removed some policies that are common in the UNIX world (you can see them in most Linux apps like dmenu).
-2. I don't like passing a list of elements by piping(something used in suckless dmenu). Instead, I prefer to __explicitly__ pass them via `-elmenets` option.
+1. I intentionally changed/removed some policies that are common in the UNIX world (you can see them in most Linux software like dmenu).
+2. I don't like passing a list of elements by piping(something used in suckless dmenu). Instead, I prefer to __explicitly__ pass them via `-elements` option.
 3. I'm not a big fan of having two kinds of option names(short names like `-e` and long ones like `--elements`). Instead, I prefer to use full and descriptive names. (`-elements`)
-4. I prefer __modularity__ and __readability__ over minimality. Consequently, I don't care about the line of codes!
 
 ## License
 ![License](https://img.shields.io/github/license/LinArcX/wmenu.svg)
