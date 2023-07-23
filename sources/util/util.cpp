@@ -56,47 +56,62 @@ std::wstring Util::stringToWString(const std::string& str)
   return wstrTo;
 }
 
-char Util::escapeSeqToChar(char seq)
+bool Util::isDelimiterValid(char delimiter)
 {
-    char result;
-    switch (seq)
-    {
-    case 'a':
-        result = 7;
-        break;
-    case 'b':
-        result = 8;
-        break;
-    case 'f':
-        result = 12;
-        break;
-    case 'n':
-        result = 10;
-        break;
-    case 'r':
-        result = 13;
-        break;
-    case 't':
-        result = 9;
-        break;
-    case 'v':
-        result = 11;
-        break;
-    case '\'':
-        result = 39;
-        break;
-    case '"':
-        result = 34;
-        break;
-    case '?':
-        result = 63;
-        break;
-    case '\\':
-        result = 92;
-        break;
-    default:
-        result = seq;
-        break;
-    }
-    return result;
+  bool isValid = false;
+  switch (delimiter)
+  {
+  case ',':
+  case ';':
+  case ':':
+  case 32: // SPACE
+  case '-':
+  case '_':
+  case '|':
+    isValid = true;
+    break;
+  default:
+    isValid = false;
+    break;
+  }
+  return isValid;
 }
+
+bool Util::containsCarriageOrTab(char raw)
+{
+  bool result = false;
+  switch (raw)
+  {
+  case 'n':
+  case 'r':
+  case 't':
+    result = true;
+    break;
+   default:
+     result = false;
+    break;
+  }
+  return result;
+}
+
+char Util::convertCarriageOrTabToAscii(char raw)
+{
+  char result;
+  switch (raw)
+  {
+  case 'n':
+    result = 10;
+    break;
+  case 'r':
+    result = 13;
+    break;
+  case 't':
+    result = 9;
+    break;
+   default:
+    result = raw;
+    break;
+  }
+  return result;
+}
+

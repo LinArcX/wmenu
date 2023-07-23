@@ -1,5 +1,8 @@
 *.*user
+/.vs/*
 /garbage
+/build/msvc/LastCoverageResults.log
+/build/msvc/.opencppcov/*
 /build/output
 /build/msvc/.vs
 /build/msvc/x64
