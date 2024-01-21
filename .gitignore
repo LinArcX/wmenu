@@ -1,11 +1,6 @@
 *.*user
+x64/*
 /.vs/*
+build/*
 /garbage
-/build/msvc/LastCoverageResults.log
-/build/msvc/.opencppcov/*
-/build/output
-/build/msvc/.vs
-/build/msvc/x64
-/build/msvc/Debug
-/build/msvc/Release
-/build/msvc/wmenu.vcxproj.user
+wmenu.vcxproj.user

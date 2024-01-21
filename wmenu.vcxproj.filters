@@ -1,0 +1,100 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup>
+    <Filter Include="util">
+      <UniqueIdentifier>{a03504d4-51c5-4fca-8e92-5e4ef55b198c}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="docs">
+      <UniqueIdentifier>{2558c252-2278-42f5-a909-a7cad9f04fe4}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="gui">
+      <UniqueIdentifier>{c37df874-8744-4f62-bb66-2d40535b4b17}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="gui\textBox">
+      <UniqueIdentifier>{ffd0efb0-eb65-4d5c-b10a-a6bb01777238}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="gui\comboBox">
+      <UniqueIdentifier>{7d931e44-058c-41e3-9092-193511ff18b0}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="commandLine">
+      <UniqueIdentifier>{105068c3-8446-4d7f-92c1-379f73fcd3c8}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="commandLine\options">
+      <UniqueIdentifier>{2a208d8d-44c5-4c12-aec0-7e8f139466e4}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="commandLine\options\font">
+      <UniqueIdentifier>{caaaee96-58b8-4c0d-9b35-72f676f8d3a7}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="gui\label">
+      <UniqueIdentifier>{04f0beed-b3fb-4497-b789-5c6d43e7b310}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="commandLine\options\prompt">
+      <UniqueIdentifier>{6078391b-82ce-49d9-965f-09ba8c327112}</UniqueIdentifier>
+    </Filter>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include=".gitignore" />
+    <None Include="LICENSE">
+      <Filter>docs</Filter>
+    </None>
+    <None Include="README.md">
+      <Filter>docs</Filter>
+    </None>
+    <None Include="TODO.md">
+      <Filter>docs</Filter>
+    </None>
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="src\util\util.hpp">
+      <Filter>util</Filter>
+    </ClInclude>
+    <ClInclude Include="src\commandLine\commandLine.hpp">
+      <Filter>commandLine</Filter>
+    </ClInclude>
+    <ClInclude Include="src\commandLine\options\font\font.hpp">
+      <Filter>commandLine\options\font</Filter>
+    </ClInclude>
+    <ClInclude Include="src\gui\label\label.hpp">
+      <Filter>gui\label</Filter>
+    </ClInclude>
+    <ClInclude Include="src\gui\comboBox\comboBox.hpp">
+      <Filter>gui\comboBox</Filter>
+    </ClInclude>
+    <ClInclude Include="src\gui\textBox\textBox.hpp">
+      <Filter>gui\textBox</Filter>
+    </ClInclude>
+    <ClInclude Include="src\gui\gui.hpp">
+      <Filter>gui</Filter>
+    </ClInclude>
+    <ClInclude Include="src\commandLine\options\prompt\prompt.hpp">
+      <Filter>commandLine\options\prompt</Filter>
+    </ClInclude>
+  </ItemGroup>
+  <ItemGroup>
+    <ClCompile Include="src\main.cpp" />
+    <ClCompile Include="src\util\util.cpp">
+      <Filter>util</Filter>
+    </ClCompile>
+    <ClCompile Include="src\commandLine\commandLine.cpp">
+      <Filter>commandLine</Filter>
+    </ClCompile>
+    <ClCompile Include="src\commandLine\options\font\font.cpp">
+      <Filter>commandLine\options\font</Filter>
+    </ClCompile>
+    <ClCompile Include="src\gui\label\label.cpp">
+      <Filter>gui\label</Filter>
+    </ClCompile>
+    <ClCompile Include="src\gui\comboBox\comboBox.cpp">
+      <Filter>gui\comboBox</Filter>
+    </ClCompile>
+    <ClCompile Include="src\gui\textBox\textBox.cpp">
+      <Filter>gui\textBox</Filter>
+    </ClCompile>
+    <ClCompile Include="src\gui\gui.cpp">
+      <Filter>gui</Filter>
+    </ClCompile>
+    <ClCompile Include="src\commandLine\options\prompt\prompt.cpp">
+      <Filter>commandLine\options\prompt</Filter>
+    </ClCompile>
+  </ItemGroup>
+</Project>

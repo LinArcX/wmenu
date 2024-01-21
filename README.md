@@ -1,14 +1,41 @@
 # wmenu
-A [dmenu](https://tools.suckless.org/dmenu/) clone for the Windows operating system written with pure win32 API.
+A [dmenu](https://tools.suckless.org/dmenu/) clone for the Windows operating system written in pure win32 API.
 
-wmenu is a hybrid GUI/terminal application inspired by [dmenu](https://tools.suckless.org/dmenu/). But it's more than that. It's better to see wmenu as "a GUI echo" utility.
+# why?
+wmenu is a hybrid GUI/terminal application inspired by [dmenu](https://tools.suckless.org/dmenu/). There are some reasons that i started to develop this software:
 
-If you pass a list of items to it via: `-elements` option, wmenu shows you a ComboBox and and you're able to select one of them. After that, it echos back that item on your terminal.
+- I missed my linux workflow.
 
-If you omit `-elements`, wmenu starts acting like a GUI TextBox. Now you can type something and by pressing ENTER, it will echo the content of TextBox on the screen.
+	When I met dmenu for the first time, I said to myself: "This simple tool can change your workflow completely", And surprisingly it did!
+	I started to use dmenu to automate almost everything in my machine.
+	From searching through applications, managing software(installing/deleting/updating), running custom scripts, browsing through my favorite directories, playing music, etc...
 
-# Demo
+	But the problem is that dmenu uses Xlib under the hood which is not available on Windows. There are some hacky ways like compiling dmenu using Cygwin, but.. no. I didn't like those ways.
 
+	So I started from scratch to clone dmenu using win32 API, without any emulation. This is how wmenu was born :)
+
+- To notify myself and others that we are the ones who should control the computers, not the opposite.
+  
+  We can feel that with the rise of AI + Cloud Computing,  we'll no longer understand what's happening inside our machines.
+
+- To show you how we can create a simple and minimal c/win32 application without using visual studio. without using trendy/bubbly ideas like clean code, design patters, etc..
+  
+  You just need a set of fucking simple tools: shell/editor/compiler/debugger. And those are enough for you and me. :)
+
+- To encourage people to challenge their habits. (even if you are a programmer or not.)
+
+	Microsoft tried so hard during the last years (And they are trying more than before) to force people to use Windows in a specific way.
+	They pay huge amounts of money to engineers to create a palace!(__default__ environment)
+	At the end, you will become a good user(follower!) But man! it's the computer world. No one can tell you __HOW__ you can use your computer.
+
+# code of conduct
+Previously i was using c++, design patterns and following uncle Bob's Clean Code for wmenu. After a lot of experiences, i realized that a source-code can be call __clean__ when:
+- it's written in a simplest form even a noob can read and rationalize about it's structure and intention easily.
+- we don't overcomplicate things.
+  - smart solutions sometimes lead to add more complexities. so: KISS.
+- you can debug your code more easily.
+
+# shots
 [Application launcher](https://github.com/LinArcX/winconf/blob/master/wmenu/02_apps.bat):
 ![application_launcher](https://user-images.githubusercontent.com/10884422/193086477-edc60bb8-2fbc-4974-be43-adb5a9079d20.jpg)
 
@@ -18,43 +45,51 @@ If you omit `-elements`, wmenu starts acting like a GUI TextBox. Now you can typ
 [PowerManager](https://github.com/LinArcX/winconf/blob/master/wmenu/00_power_manager.bat):
 ![power_manager](https://user-images.githubusercontent.com/10884422/193086890-9e3e20ce-2263-4251-aadb-553dc9c276d6.jpg)
 
-# Why?
-1. The main reason is that: I missed my Linux workflow.
+# build/debug/run
+## `p.bat`
+if you prefer minimal environment and independent tools like me, and don't want to rely on visual studio for building/debugging, please download and install:
+  - fzf
+  - windgb
+  - Build Tools for Visual Studio 2022.
 
-	When I met dmenu for the first time, I said to myself: "This simple tool can change my workflow completely", And surprisingly it did!
-	I started to use dmenu to automate almost everything in my machine.
-	From searching through applications, managing software(installing/deleting/updating), running custom scripts, browsing through my favorite directories, playing music, etc...
+I provide a batch script called: `p.bat` that is using `fzf` and `p.txt` to make a menu for you in cmd. After run it, you can choose to:
+- build
+- debug
+- clean
+- run
 
-	But the problem is that dmenu uses Xlib under the hood which is not available on Windows. There are some hacky ways like compiling dmenu using Cygwin, but.. no. I didn't like those ways.
+### Troubleshooting
+#### Error: VsDevCmd.bat encountered errors. Environment may be incomplete and/or incorrect. ** error VsDev.cmd
+Open regedit and go to:
+	HKEY_LOCAL_MACHINE\SOFTWARE\Microsoft\Command Processor
+Change:
+	Autorun = "cls"
+To:
+	Autorun = ""
 
-	So I started from scratch to clone dmenu using win32 API, without any emulation. This is how wmenu was born :)
+## Visual Studio
+- If you prefer visual studio, you can just download visual studio and open .sln in the root of the project with it.
+  - All the debugging/building/cleaning the project will be happen inside this magic box.
 
-2. The second reason is that I wanted to encourage people to challenge their habits. (even if you are a programmer or not.)
-	Microsoft tried so hard during the last years(And they are trying now more than before) to force people to use Windows in a specific way.
-	They pay huge amounts of money to engineers to create a palace!(__default__ environment)
-	In the end, you will become a good user(follower!) But man! it's the computer world. No one can tell you __HOW__ you can use your computer.
+# How it works?
+wmenu as it's core is a "GUI echo" utility.
+If you pass a list of items to it via: `-elements` option, wmenu shows you a ComboBox and and you're able to select one of them. After that, it echos back that item on your terminal.
+If you omit `-elements`, wmenu starts acting like a GUI TextBox. Now you can type something and by pressing ENTER, it will echo the content of TextBox on the screen.
 
-# Prerequisites
-- MSVC
-
-# How use it?
 Since wmenu uses the WINDOWS subsystem when compiling, you can't use stdout directly.
 
 So you should pipe it with `more` command:
 
-`wmenu.exe -elements "wmenu,dmenu,dwm" | more`
+  `wmenu.exe -elements "wmenu,dmenu,dwm" | more`
 
 Or if you want to use a specific delimiter:
 
-`wmenu.exe -element-delimiter ":" -elements "wmenu:dmenu:dwm" | more`
-
+  `wmenu.exe -element-delimiter ":" -elements "wmenu:dmenu:dwm" | more`
 
 For more information about how using wmenu:
-`wmenu.exe -help | more`
+  `wmenu.exe -help | more`
 
-# Usage
-
-Let's create a file called `apps.bat` and paste these lines into it:
+Now let's create a file called `apps.bat` and paste these lines into it:
 ```
 @echo off
 start /B wmenu.exe -elements "notepad;explorer;paint;" | more > %temp%/apps.txt
@@ -75,13 +110,7 @@ del "%temp%\apps.txt"
 ```
 
 You can use [clavier+](https://github.com/guilryder/clavier-plus) to bind it to a key.
-
 As i said, i [use](https://github.com/LinArcX/winconf/tree/master/wmenu) wmenu for almost anything. Enjoy hacking your workflow :)
-
-# Philosophy behind code structure
-1. I intentionally changed/removed some policies that are common in the UNIX world (you can see them in most Linux software like dmenu).
-2. I don't like passing a list of elements by piping(something used in suckless dmenu). Instead, I prefer to __explicitly__ pass them via `-elements` option.
-3. I'm not a big fan of having two kinds of option names(short names like `-e` and long ones like `--elements`). Instead, I prefer to use full and descriptive names. (`-elements`)
 
 ## License
 ![License](https://img.shields.io/github/license/LinArcX/wmenu.svg)
