@@ -36,13 +36,13 @@ Previously i was using c++, design patterns and following uncle Bob's Clean Code
 - you can debug your code more easily.
 
 # shots
-[Application launcher](https://github.com/LinArcX/winconf/blob/master/wmenu/02_apps.bat):
+[Application launcher](https://github.com/LinArcX/winconf/blob/master/batch/fzf/a.bat):
 ![application_launcher](https://user-images.githubusercontent.com/10884422/193086477-edc60bb8-2fbc-4974-be43-adb5a9079d20.jpg)
 
-[Jump to favorite directories](https://github.com/LinArcX/winconf/blob/master/wmenu/01_dirs.bat):
+[Jump to favorite directories](https://github.com/LinArcX/winconf/blob/master/batch/fzf/d.bat):
 ![jump_to_favorite_dirs](https://user-images.githubusercontent.com/10884422/193086873-353ad517-06aa-4669-bc90-b14d044cffcb.jpg)
 
-[PowerManager](https://github.com/LinArcX/winconf/blob/master/wmenu/00_power_manager.bat):
+[PowerManager](https://github.com/LinArcX/winconf/blob/master/batch/wmenu/power_manager.bat):
 ![power_manager](https://user-images.githubusercontent.com/10884422/193086890-9e3e20ce-2263-4251-aadb-553dc9c276d6.jpg)
 
 # build/debug/run
@@ -95,15 +95,10 @@ Now let's create a file called `apps.bat` and paste these lines into it:
 start /B wmenu.exe -elements "notepad;explorer;paint;" | more > %temp%/apps.txt
 
 for /f "tokens=*" %%s in (%temp%\apps.txt) do (
-  IF "%%s"=="notepad" (
-	start %%s
-  ) ELSE IF "%%s"=="explorer" (
-	start %%s
-  ) ELSE IF "%%s"=="paint" (
-	start mspaint
-  ) ELSE (
-	REM default case...
-  )
+  if "%%s"=="notepad" ( start %%s)
+  else if "%%s"=="explorer" ( start %%s )
+  else if "%%s"=="paint" ( start mspaint )
+  else ( REM default case...)
 )
 
 del "%temp%\apps.txt"
