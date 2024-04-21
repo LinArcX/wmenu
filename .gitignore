@@ -2,5 +2,7 @@
 x64/*
 /.vs/*
 build/*
+Debug/*
+Release/*
 /garbage
 wmenu.vcxproj.user

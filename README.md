@@ -58,6 +58,14 @@ I provide a batch script called: `p.bat` that is using `fzf` and `p.txt` to make
 - clean
 - run
 
+### Debugging
+You can use winDbg for debugging wmenu. eigher install Windows Driver Kit(WDK) or [newer winDbg](https://learn.microsoft.com/en-us/windows-hardware/drivers/debugger/) alone.
+  - Not forget to add the executable of winDbg to your PATh environment variable, since p.bat will use it.
+  - If you are on windows 10, you need to be sure that you have: Windows 10 Anniversary Update (version 1607) or newer. you can install it with choco:
+  `choco install windows-10-update-assistant --version=1.4.9200.22175`
+
+Then just run `p.bat` and select __debug__ option.
+
 ### Troubleshooting
 #### Error: VsDevCmd.bat encountered errors. Environment may be incomplete and/or incorrect. ** error VsDev.cmd
 Open regedit and go to:
