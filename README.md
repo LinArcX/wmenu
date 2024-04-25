@@ -1,3 +1,9 @@
+!! Archived: I lost interest in Windows OS, due to many factors including: 1. win32 API, 2. lack of developer-friendly tools. and many others...
+
+msys2+scoop was my latest attempt to make a living in Windows more comfortable. but still, it was terrible. You can find all my efforts here: https://github.com/LinArcX/winconf
+
+And if anyone is interested, he/she can fork this repo! but I strongly recommend you switch to a better OS!
+
 # wmenu
 A [dmenu](https://tools.suckless.org/dmenu/) clone for the Windows operating system written in pure win32 API.
 
