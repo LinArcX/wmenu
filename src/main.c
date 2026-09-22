@@ -1,17 +1,3 @@
-//#include "gui.hpp"
-
-//#include <sstream>
-//#include <iostream>
-
-//#include "../util/util.hpp"
-//#include "../commandLine/commandLine.hpp"
-//#include "../commandLine/options/prompt/prompt.hpp"
-////std::wstring stringToLpcwstr(std::string source)
-//{
-//  std::wstring temp = std::wstring(source.begin(), source.end());
-//  return temp;
-//}
-
 #pragma warning(disable: 4996)
 
 char*
@@ -630,6 +616,20 @@ int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, PSTR szCmdLine,
   }
   return Result;
 }
+
+//#include "gui.hpp"
+
+//#include <sstream>
+//#include <iostream>
+
+//#include "../util/util.hpp"
+//#include "../commandLine/commandLine.hpp"
+//#include "../commandLine/options/prompt/prompt.hpp"
+////std::wstring stringToLpcwstr(std::string source)
+//{
+//  std::wstring temp = std::wstring(source.begin(), source.end());
+//  return temp;
+//}
 
 //#include "gui/gui.h"
 //int Gui::initialize(const HINSTANCE hInstance, int iCmdShow)
